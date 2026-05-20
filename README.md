@@ -1,4 +1,4 @@
-<h2 align="center"> <a href="https://arxiv.org/abs/2512.02268">Spatiotemporal Pyramid Flow Matching for Climate Emulation</a></h2>
+<h2 align="center"> <a href="https://arxiv.org/abs/2512.02268">Spatiotemporal Pyramid Flow Matching for Climate Emulation [CVPR 2026]</a></h2>
 <h5 align="center"> If you like this project, please give us a star ⭐ on GitHub and watch 👀 for updates!</h2>
 
 
@@ -11,6 +11,7 @@
 </h5>
 
 ## 📰 News
+* **[2026.2.20]** 🔥 Our work has been accepted to **CVPR 2026**! 
 * **[2025.12.02]** 🎉 Our [paper](https://arxiv.org/abs/2512.02268) is available! Dataset and code will be released soon. Please feel free to **watch** 👀 this repository for updates.
 
 ## Table of Contents
