@@ -6,11 +6,11 @@
 
 [![arXiv](https://img.shields.io/badge/Arxiv-2512.02268-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2512.02268)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellow)](https://github.com/ermongroup/TEOChat/blob/main/LICENSE)
-![Badge](https://hitscounter.dev/api/hit?url=http%3A%2F%2Fgithub.com%2Fstanfordmlgroup%2Fspf&label=Hits&icon=github&color=%23198754&message=&style=flat&tz=UTC)
 
 </h5>
 
 ## 📰 News
+* **[2026.6.07]** 👀 The [ClimateSuite dataset](https://huggingface.co/datasets/jirvin16/ClimateSuite) has been publicly released! Training and evaluation code will be released soon.
 * **[2026.2.20]** 🔥 Our work has been accepted to **CVPR 2026**! 
 * **[2025.12.02]** 🎉 Our [paper](https://arxiv.org/abs/2512.02268) is available! Dataset and code will be released soon. Please feel free to **watch** 👀 this repository for updates.
 
@@ -19,6 +19,7 @@
 * [Highlights](#-highlights)
 * [Main Results](#-main-results)
 * [Requirements and Installation](#%EF%B8%8F-requirements-and-installation)
+* [Data Preparation](#-data-preparation)
 * [Training & Validating](#%EF%B8%8F-training--validating)
 * [License](#-license)
 * [Acknowledgements](#-acknowledgements)
@@ -81,8 +82,53 @@ We demonstrate that SPFs:
 ## 🛠️ Requirements and Installation
 Package requirements and installation directions will be posted soon.
 
+## 🤗 Data Preparation
+The ClimateSuite dataset is available for download here (https://huggingface.co/datasets/jirvin16/ClimateSuite).
+
+ClimateSuite is stored as archive-sharded Zarr data in the following format:
+
+```
+grid.nc
+inputs/<timescale>/*.zarr
+outputs/<climate_model>/<timescale>/*.zarr
+```
+
+The recommended path for this repository is the built-in helper, which downloads matching archive shards and extracts them
+automatically:
+
+```python
+from emulator.src.data.huggingface import download_climate_dataset
+
+# Use a fast local cache if possible.
+cache_dir = "/path/to/fast/cache"
+
+# Download and extract the full dataset.
+data_dir = download_climate_dataset(
+    "jirvin16/ClimateSuite",
+    cache_dir=cache_dir,
+)
+
+# Or download only a specific model/timescale subset.
+data_dir = download_climate_dataset(
+    "jirvin16/ClimateSuite",
+    cache_dir=cache_dir,
+    climate_models=["NorESM2-LM"],
+    timescales=["yearly"],
+)
+```
+
+The training and evaluation configs use the Hugging Face dataset by default. Set `CLIMATESUITE_CACHE_DIR` to control where
+archives and extracted Zarr stores are cached:
+
+```
+export CLIMATESUITE_CACHE_DIR=/path/to/fast/cache
+```
+
+Running the same command again will reuse cached files and will not re-download unchanged shards unless the cache directory
+changes.
+
 ## 🗝️ Training & Validating
-The training & validating instructions, including how to download the ClimateSuite dataset, will be posted soon.
+The training & validating instructions will be posted soon.
 
 ## 👍 Acknowledgements
 * [Pyramid Flows](https://github.com/jy0205/Pyramid-Flow) The model we built upon.
@@ -98,7 +144,7 @@ If you find our paper and code useful in your research, please consider giving a
 @article{irvin2025spatiotemporal,
   title={Spatiotemporal Pyramid Flow Matching for Climate Emulation},
   author={Irvin, Jeremy Andrew and Han, Jiaqi and Wang, Zikui and Alharbi, Abdulaziz and Zhao, Yufei and Bayarsaikhan, Nomin-Erdene and Visioni, Daniele and Ng, Andrew Y. and Watson-Parris, Duncan},
-  journal={arXiv preprint arXiv:2512.02268},
-  year={2025}
+  journal={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2026}
 }
 ```
