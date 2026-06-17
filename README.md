@@ -11,7 +11,7 @@
 </h5>
 
 ## 📰 News
-* **[2026.6.14]** 🙌 Training and evaluation code is now available! See below for details about how to launch training runs and evaluate models.
+* **[2026.6.17]** 🙌 Training and evaluation code is now available! See below for details about how to launch training runs and evaluate models.
 * **[2026.6.07]** 👀 The [ClimateSuite dataset](https://huggingface.co/datasets/jirvin16/ClimateSuite) has been publicly released! Training and evaluation code will be released soon.
 * **[2026.2.20]** 🔥 Our work has been accepted to **CVPR 2026**! 
 * **[2025.12.02]** 🎉 Our [paper](https://arxiv.org/abs/2512.02268) is available! Dataset and code will be released soon. Please feel free to **watch** 👀 this repository for updates.
