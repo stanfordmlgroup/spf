@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - /experiment/baseline/climatebench_pyramidalflow4_reproduce_test.yaml
+
+name: spf_reproduce_climatebench_pyramidalflow4_yearly_test
+work_dir: ${hydra:runtime.cwd}/outputs/reproduce/pyramidalflow4_yearly_test
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs
+eval_timescale: yearly

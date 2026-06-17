@@ -1,0 +1,42 @@
+defaults:
+  #- /input_transform: 
+  - /optimizer: adamw_pixelflow.yaml
+
+_target_: emulator.models.single_timescale_spatiotemporal_pyramid_flow.SingleTimescaleSpatiotemporalPyramidFlow
+
+model_name: SingleTimescaleSpatiotemporalPyramidFlow
+
+transformer_config:
+  _target_: emulator.models.spatiotemporal_pyramid_flow.model.SpatiotemporalPyramidFlow 
+  height: 288
+  width: 192
+  cond_height: 144
+  cond_width: 96
+  num_attention_heads: 16
+  attention_head_dim: 72
+  in_channels: 2
+  cond_in_channels: 5
+  out_channels: 2
+  depth: 4
+  num_classes: 0  # NOTE: Kept at zero for our case
+  patch_size: 8
+  cond_patch_size: 16
+  attention_bias: true
+  cross_attention_dim: 1152
+  dropout: 0.0
+  pos_embed_type: 'sincos'
+  temp_pos_embed_type: 'rope'
+  pos_embed_max_size: 288
+  use_grad_checkpointing: true
+  add_temp_pos_embed: true
+  use_flash_attn: True
+
+noise_scheduler_config:
+  _target_: emulator.schedulers.temporal_flow.SingleTimescaleFlowMatchEulerDiscreteScheduler
+  num_train_timesteps: 1000
+  num_stages: 3
+  shift: 1.0
+  stage_range: [0, 0.33, 0.66, 1]
+  ns: [4, 4]
+
+num_inference_steps: 30

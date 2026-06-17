@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+.python-version
+
+outputs/
+/data/
+runs/
+logs/
+checkpoints/
+wandb/
+.hydra/
+
+# Local machine-specific overrides and private checkpoint paths
+.env.local
+local_configs/
+emulator/configs/experiment/local/

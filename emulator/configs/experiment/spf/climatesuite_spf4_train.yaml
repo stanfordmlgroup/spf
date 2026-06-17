@@ -1,0 +1,41 @@
+# @package _global_
+defaults:
+  - override /mode: exp.yaml
+  - override /trainer: default.yaml
+  - override /model: spf/spf4.yaml
+  - override /callbacks: default.yaml
+  - override /logger: wandb.yaml
+  - override /datamodule: spf/climatesuite.yaml
+
+name: climatesuite_spf4_train
+work_dir: ${hydra:runtime.cwd}/outputs/train/climatesuite_spf4
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs
+save_config_to_wandb: false
+test_after_training: false
+seed: 22201
+
+trainer:
+  min_epochs: 1
+  max_epochs: 50
+  accumulate_grad_batches: 8
+  check_val_every_n_epoch: 2
+  devices: 1
+
+only_test_model: false
+num_eval_samples: 1
+num_samples_viz: 3
+eval_timescale: monthly
+
+model:
+  monitor: llrmse_climax
+  finetune: false
+  pretrained_run_id: null
+  pretrained_ckpt_dir: null
+  llm_name: null
+  emulator_config:
+    encoder_hid_dim: 2048
+
+logger:
+  wandb:
+    tags: ["spf", "climatesuite", "train"]

@@ -1,0 +1,21 @@
+# @package _global_
+defaults:
+  - /experiment/spf/climatebench_spf4_test.yaml
+  - override /logger: none.yaml
+
+name: spf_reproduce_climatebench_spf4_yearly_test
+work_dir: ${hydra:runtime.cwd}/outputs/reproduce/climatebench_spf4_yearly_test
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs
+save_config_to_wandb: false
+test_after_training: true
+eval_timescale: yearly
+
+model:
+  load_config_from_wandb: false
+  pretrained_run_id: e6kuk8mz
+  pretrained_ckpt_dir: <your checkpoint>
+
+datamodule:
+  model_config:
+    eval_timescale: yearly

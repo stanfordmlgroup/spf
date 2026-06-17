@@ -1,0 +1,34 @@
+# @package _global_
+defaults:
+- override /mode: exp.yaml
+- override /trainer: default.yaml
+- override /model: spf/spf4.yaml
+- override /callbacks: default.yaml
+- override /logger: wandb.yaml
+- override /datamodule: spf/climatebench.yaml
+name: spf_climatebench_spf4_test
+seed: 22201
+trainer:
+  min_epochs: 1
+  max_epochs: 200
+  accumulate_grad_batches: 8
+  check_val_every_n_epoch: 10
+  devices: 1
+only_test_model: true
+num_eval_samples: 5
+num_samples_viz: 3
+eval_timescale: monthly
+model:
+  monitor: llrmse_climax
+  finetune: false
+  pretrained_run_id: qop2wghv
+  pretrained_ckpt_dir: <your checkpoint>
+  llm_name: null
+  emulator_config:
+    encoder_hid_dim: 2048
+logger:
+  wandb:
+    tags:
+    - spf
+    - climatebench
+    - test

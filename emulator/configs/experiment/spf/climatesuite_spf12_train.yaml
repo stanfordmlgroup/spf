@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - /experiment/spf/climatesuite_spf4_train.yaml
+  - override /model: spf/spf12.yaml
+
+name: climatesuite_spf12_train
+work_dir: ${hydra:runtime.cwd}/outputs/train/climatesuite_spf12
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs

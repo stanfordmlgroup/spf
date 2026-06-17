@@ -1,0 +1,36 @@
+defaults:
+  #- /input_transform: 
+  - /optimizer: adamw_pixelflow.yaml
+
+_target_: emulator.models.pixelflow_basemodel.PixelFlowBaseModel
+
+model_name: PixelFlow
+
+transformer_config:
+  _target_: emulator.models.pixelflow.model.PixelFlowModel
+  num_attention_heads: 16
+  attention_head_dim: 72
+  in_channels: 2
+  out_channels: 2
+  depth: 4
+  num_classes: 0  # NOTE: Kept at zero for our case
+  patch_size: 8
+  attention_bias: true
+  cross_attention_dim: 1152  # NOTE: Depend on encoder model
+  dropout: 0.0
+ 
+encoder_config:
+  _target_: emulator.models.pixelflow.encoder.PixelFlowEncoder
+  num_channels: 5
+  patch_size: 16
+  model_dim: 1152
+
+noise_scheduler_config:
+  _target_: emulator.schedulers.pyramidal_flow.PyramidFlowMatchEulerDiscreteScheduler
+  num_train_timesteps: 1000
+  num_stages: 3
+  shift: 1.0
+  stage_range: [0, 0.33, 0.66, 1]
+  ns: [4, 4]
+
+num_inference_steps: 30

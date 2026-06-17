@@ -1,0 +1,25 @@
+# @package _global_
+defaults:
+  - /experiment/spf/climatebench_spf4_test.yaml
+  - override /logger: none.yaml
+
+name: spf_smoke_test
+work_dir: ${hydra:runtime.cwd}/outputs/smoke/test
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs
+save_config_to_wandb: false
+test_after_training: true
+num_eval_samples: 1
+
+trainer:
+  limit_test_batches: 1
+  devices: 1
+
+datamodule:
+  eval_batch_size: 3
+  num_workers: 0
+  persistent_workers: false
+
+model:
+  load_config_from_wandb: false
+  pretrained_ckpt_dir: <your checkpoint>

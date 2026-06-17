@@ -1,0 +1,42 @@
+# @package _global_
+defaults:
+  - override /mode: exp.yaml
+  - override /trainer: default.yaml
+  - override /model: spf/single_timescale_spf4.yaml
+  - override /callbacks: default.yaml
+  - override /logger: none.yaml
+  - override /datamodule: pixelflow/yearly_climatebench.yaml
+
+name: spf_reproduce_climatebench_multiyearly_pixelflow4_test
+work_dir: ${hydra:runtime.cwd}/outputs/reproduce/multiyearly_pixelflow4_test
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs
+save_config_to_wandb: false
+test_after_training: true
+seed: 22201
+
+trainer:
+  min_epochs: 1
+  max_epochs: 500
+  accumulate_grad_batches: 8
+  check_val_every_n_epoch: 10
+  devices: 1
+
+only_test_model: true
+num_eval_samples: 5
+num_samples_viz: 3
+eval_timescale: yearly
+
+model:
+  monitor: llrmse_climax
+  finetune: false
+  pretrained_run_id: 0p2dlfw6
+  pretrained_ckpt_dir: <your checkpoint>
+  load_config_from_wandb: false
+  llm_name: null
+  emulator_config:
+    encoder_hid_dim: 2048
+
+datamodule:
+  model_config:
+    eval_timescale: yearly

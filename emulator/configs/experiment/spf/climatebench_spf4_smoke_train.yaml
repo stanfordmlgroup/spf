@@ -1,0 +1,22 @@
+# @package _global_
+defaults:
+  - /experiment/spf/climatebench_spf4_train.yaml
+  - override /logger: none.yaml
+
+name: spf_smoke_train
+work_dir: ${hydra:runtime.cwd}/outputs/smoke/train
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs
+save_config_to_wandb: false
+test_after_training: false
+
+trainer:
+  max_epochs: 1
+  limit_train_batches: 1
+  limit_val_batches: 0
+  check_val_every_n_epoch: 1
+  devices: 1
+
+datamodule:
+  num_workers: 0
+  persistent_workers: false

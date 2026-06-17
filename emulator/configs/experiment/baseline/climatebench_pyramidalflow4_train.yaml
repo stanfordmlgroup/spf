@@ -1,0 +1,37 @@
+# @package _global_
+defaults:
+  - override /mode: exp.yaml
+  - override /trainer: default.yaml
+  - override /model: pyramidal/pyramidalflow4.yaml
+  - override /callbacks: default.yaml
+  - override /logger: none.yaml
+  - override /datamodule: pyramidal/climatebench.yaml
+
+name: spf_climatebench_pyramidalflow4_train
+work_dir: ${hydra:runtime.cwd}/outputs/train/pyramidalflow4
+ckpt_dir: ${work_dir}/checkpoints
+log_dir: ${work_dir}/logs
+save_config_to_wandb: false
+test_after_training: false
+seed: 22201
+
+trainer:
+  min_epochs: 1
+  max_epochs: 250
+  accumulate_grad_batches: 8
+  check_val_every_n_epoch: 10
+  devices: 1
+
+only_test_model: false
+num_eval_samples: 1
+num_samples_viz: 3
+start_validation_after_n_epochs: 150
+
+model:
+  monitor: llrmse_climax
+  finetune: false
+  pretrained_run_id: null
+  pretrained_ckpt_dir: null
+  llm_name: null
+  emulator_config:
+    encoder_hid_dim: 2048

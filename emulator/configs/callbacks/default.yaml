@@ -1,0 +1,4 @@
+metric_checkpoint:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  monitor: "llrmse_climax"
+  save_last: True

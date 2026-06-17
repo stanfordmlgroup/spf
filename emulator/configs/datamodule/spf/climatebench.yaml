@@ -1,0 +1,91 @@
+# Dataloader configuration for the ClimateSet dataset
+_target_: emulator.data.loading.datamodule.ClimateDataModule
+dataset: TimescaleAlignedClimateModelDataset
+output_data_dir: null
+data_source: huggingface
+hf_dataset_repo: jirvin16/ClimateSuite
+hf_dataset_revision: main
+hf_dataset_cache_dir: ${oc.env:CLIMATESUITE_CACHE_DIR,${hydra:runtime.cwd}/.cache/climatesuite}
+hf_dataset_token: true
+hf_dataset_extract_archives: true
+input_variables:
+- AOD
+- BC
+- CO2
+- SO2
+- CH4
+output_variables:
+- tas
+- pr
+input_seq_len:
+  decadal: 10
+  yearly: 10
+  monthly: 1
+output_seq_len:
+  decadal: 10
+  yearly: 10
+  monthly: 12
+timescales:
+- decadal
+- yearly
+- monthly
+val_split: 0.05
+batch_size: 3
+eval_batch_size: 3
+num_workers: 15
+shuffle: true
+persistent_workers: true
+pin_memory: true
+drop_last: true
+regrids:
+- CESM2-WACCM
+regrid_input: false
+min_max_norm: false
+log_vars: []
+spatial_layout: swap_lat_lon
+model_name: ${model.model_name}
+model_config:
+  attention_head_dim: ${model.transformer_config.attention_head_dim}
+  patch_size: ${model.transformer_config.patch_size}
+  encoder_patch_size: ${model.transformer_config.cond_patch_size}
+  noise_scheduler_config: ${model.noise_scheduler_config}
+  same_scale_prob: ${model.same_scale_prob}
+train_climate_model_metadata:
+- model: NorESM2-LM
+  num_ensemble_member: 3
+  scenarios:
+  - ssp126
+  - ssp585
+  IB: false
+  align_to_decade: true
+  min_start_year: 2000
+  member_variant_labels:
+  - i1p1f1
+- model: NorESM2-LM
+  num_ensemble_member: 3
+  scenarios:
+  - historical
+  align_to_decade: true
+  member_variant_labels:
+  - i1p1f1
+val_climate_model_metadata:
+- model: NorESM2-LM
+  num_ensemble_member: 3
+  scenarios:
+  - ssp370
+  IB: false
+  align_to_decade: true
+  min_start_year: 2000
+  member_variant_labels:
+  - i1p1f1
+test_climate_model_metadata:
+- model: NorESM2-LM
+  num_ensemble_member: 3
+  scenarios:
+  - ssp245
+  IB: false
+  align_to_decade: true
+  min_start_year: 2000
+  member_variant_labels:
+  - i1p1f1
+hf_dataset_max_workers: 32

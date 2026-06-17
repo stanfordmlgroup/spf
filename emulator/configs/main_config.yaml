@@ -1,0 +1,65 @@
+# Adapted from https://github.com/RolnickLab/climart
+
+# specify here default training configuration
+defaults:
+  - _self_
+  - trainer: default.yaml
+  - model: spf/spf4.yaml
+  - datamodule: spf/climatebench.yaml
+  - noise_scheduler: null
+  - callbacks: default.yaml  # or use wandb.yaml for wandb suppport
+  - logger: none # set logger here or use command line (e.g. `python run.py logger=wandb`)
+
+  # modes are special collections of config options for different purposes, e.g. debugging
+  - mode: default.yaml
+
+  # experiment configs allow for version control of specific configurations
+  # for example, use them to store best hyperparameters for each combination of model and datamodule
+  - experiment: null
+
+  # config for hyperparameter optimization
+  - hparams_search: null
+
+  # optional local config for machine/user specific settings
+  - optional local: default.yaml
+
+model:
+  monitor: "val/llrmse_climax"
+
+work_dir: ${hydra:runtime.cwd}  # {oc.env:ENV_VAR} allows to get environment variable ENV_VAR
+
+# path to checkpoints
+ckpt_dir: ${work_dir}/checkpoints/
+
+# path for logging
+log_dir: ${work_dir}/logs/
+
+# path for disk-backed evaluation metric cache
+eval_cache_dir: ${oc.env:SPF_EVAL_CACHE_DIR,${hydra:runtime.cwd}/.cache/eval}
+
+# pretty print config at the start of the run using Rich library
+print_config: True
+
+# If you would like to profile with pytorch profiler
+pyprofile: False
+
+# disable python warnings if they annoy you
+ignore_warnings: True
+
+# evaluate on test set, using best model weights achieved during training
+# lightning chooses best weights based on metric specified in checkpoint callback
+test_after_training: True
+
+# Upload config file to wandb cloud?
+save_config_to_wandb: False
+
+# Verbose?
+verbose: True
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: 42
+
+# name of the run, should be used along with experiment mode
+name: "default"
+
+only_test_model: False
